@@ -8,6 +8,11 @@ import './AddFolder.css';
 class AddFolder extends Component {
     static contextType = ApiContext;
 
+    handleClickCancel = () => {
+        this.props.history.push('/')
+    }
+
+
     constructor(props){
         super(props);
         this.state = {
@@ -20,9 +25,10 @@ class AddFolder extends Component {
     }
 
     
-    handleSubmit = e => {
-        e.preventDefault()
+    handleSubmit = (e) => {
+        e.preventDefault();
         const folder = {
+          name: e.target['folderName'].value
           name: e.target['folderName'].value
         }
         fetch(`${Config.API_ENDPOINT}/folders`, {
@@ -50,20 +56,24 @@ class AddFolder extends Component {
         return (
        <section className='AddFolder'>
         <h2>Create a folder</h2>
-        <NoteForm onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <div className='field'>
             <label htmlFor='folder-name-input'>
               Name
             </label>
-            <input type='text' id='folder-name-input' name='folderName' onChange={e => this.updateFolderName(e.target.value)}/>
+            <input type='text' id='folder-name-input' name='folderName' onChange={e => this.updateFolderName(e.target.value)} required/>
            
           </div>
           <div className='buttons'>
             <button type='submit'>
               Add folder
             </button>
+            {' '}
+         <button type='submit' onClick={this.handleClickCancel}>
+             Cancel
+         </button>
           </div>
-        </NoteForm>
+        </form>
       </section>
     )
     }

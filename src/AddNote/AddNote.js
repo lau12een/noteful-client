@@ -8,6 +8,9 @@ import PropTypes from 'prop-types';
 
 export default class AddNote extends Component {
   static contextType = ApiContext;
+   handleClickCancel = () => {
+        this.props.history.push('/')
+    }
 
   constructor(props) {
       super(props);
@@ -57,7 +60,7 @@ formValid() {
     });
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault()
     const newNote = {
       name: e.target['noteName'].value,
@@ -93,12 +96,12 @@ formValid() {
 
         <h2>Create a note</h2>
 
-        <NoteForm onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <div className='field'>
             <label htmlFor='note-name-input'>
               Name
             </label>
-            <input type='text' id='note-name-input' name='noteName' onChange={e => this.updateNoteName(e.target.value)}/>
+            <input type='text' id='note-name-input' name='noteName' onChange={e => this.updateNoteName(e.target.value)} required/>
             <ValidationError hasError={!this.state.noteNameValid} message={this.state.validationMessages.incorrectName}/>
           </div>
           <div className='field'>
@@ -124,8 +127,12 @@ formValid() {
             <button type='submit'>
               Add note
             </button>
+            {' '}
+            <button type='submit' onClick={this.handleClickCancel}>
+              Cancel
+            </button>
           </div>
-        </NoteForm>
+        </form>
       </section>
     )
   }
